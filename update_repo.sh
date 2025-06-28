@@ -15,24 +15,22 @@ REPO_NAME="brisbane-wharf-box"
 # ⬇ Переход в проект
 cd "$PROJECT_PATH" || { echo "❌ Папка проекта не найдена"; exit 1; }
 
-# ⬇ Проверим, есть ли непушеные изменения
-if [[ -z $(git status --porcelain) ]]; then
-  echo "⚡ Нет изменений для коммита"
-  exit 0
-fi
-
-# ⬇ Удалим и пересоздадим origin
+# ⬇ Удалим и пересоздадим origin (https)
 git remote remove origin 2>/dev/null || true
 git remote add origin "https://github.com/$GITHUB_USER/$REPO_NAME.git"
 
 # ⬇ Создаём новую ветку
 git checkout -b "$BRANCH_NAME"
 
-# ⬇ Коммитим и пушим
+# ⬇ Добавляем всё
 git add .
-git commit -m "$COMMIT_MESSAGE"
+
+# ⬇ Коммитим (всегда, даже если нет изменений)
+git commit --allow-empty -m "$COMMIT_MESSAGE"
+
+# ⬇ Пушим
 git push -u origin "$BRANCH_NAME"
 
-# ✅ Завершено
+# ✅ Готово
 echo "✅ Коммит запушен в ветку '$BRANCH_NAME'"
 echo "🔗 Открой Pull Request: https://github.com/$GITHUB_USER/$REPO_NAME/pull/new/$BRANCH_NAME"
