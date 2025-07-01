@@ -13,13 +13,13 @@ workflows:
 
       ios_signing:
         distribution_type: app_store
-        bundle_identifier: com.dartousha.rtyameck
+        bundle_identifier: com.briscsba.neharfosde
 
       vars:
-        BUNDLE_ID: "com.dartousha.rtyameck"
+        BUNDLE_ID: "com.briscsba.neharfosde"
         XCODE_WORKSPACE: "BrisbaneWharfBox.xcworkspace"
         XCODE_SCHEME: "BrisbaneWharfBox"
-        APP_STORE_APPLE_ID: 6748028695
+        APP_STORE_APPLE_ID: 6748035304
 
       node: 18.18.0
       xcode: latest

@@ -274,7 +274,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.dartousha.rtyameck;
+				PRODUCT_BUNDLE_IDENTIFIER = com.briscsba.neharfosde;
 				PRODUCT_NAME = BrisbaneWharfBox;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
