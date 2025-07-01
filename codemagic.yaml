@@ -25,12 +25,18 @@ workflows:
       xcode: latest
 
     scripts:
+      - name: Clean cache and pods
+        script: |
+          rm -rf ~/Library/Developer/Xcode/DerivedData
+          rm -rf ios/Pods
+          cd ios
+          pod deintegrate
+          pod install
+          cd ..
+
       - name: Install dependencies
         script: |
           npm install
-          cd ios
-          pod install
-          cd ..
 
       - name: Set up provisioning profiles
         script: xcode-project use-profiles
@@ -39,11 +45,14 @@ workflows:
         script: |
           xcode-project build-ipa \
             --workspace "$XCODE_WORKSPACE" \
-            --scheme "$XCODE_SCHEME"
+            --scheme "$XCODE_SCHEME" \
+            --verbose
 
     artifacts:
       - build/ios/ipa/*.ipa
       - /tmp/xcodebuild_logs/*.log
+      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.app
+      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
 
     publishing:
       email:
