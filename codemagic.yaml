@@ -5,7 +5,7 @@ workflows:
     instance_type: mac_mini_m2
 
     integrations:
-      app_store_connect: "Brisbane Wharf Box"  
+      app_store_connect: "Brisbane Wharf Box API"  
 
     environment:
       groups:
