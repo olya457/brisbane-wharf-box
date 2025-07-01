@@ -35,7 +35,9 @@ workflows:
       - name: Clean derived data
         script: |
           rm -rf ~/Library/Developer/Xcode/DerivedData
-          xcodebuild -resolvePackageDependencies
+          xcodebuild -resolvePackageDependencies \
+            -workspace "$XCODE_WORKSPACE" \
+            -scheme "$XCODE_SCHEME"
 
       - name: Set up provisioning profiles
         script: xcode-project use-profiles
@@ -61,6 +63,6 @@ workflows:
           failure: false
 
       app_store_connect:
-        auth: integration 
+        auth: integration  
         submit_to_testflight: true
         submit_to_app_store: false
