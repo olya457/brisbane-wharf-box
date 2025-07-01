@@ -1,0 +1,82 @@
+workflows:
+  react-native-ios:
+    name: React Native iOS Build
+    max_build_duration: 120
+    instance_type: mac_mini_m2
+
+    integrations:
+      app_store_connect: "Brisbane Wharf Box"
+
+    environment:
+      groups:
+        - Box
+
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: com.dartousha.rtyameck
+
+      vars:
+        BUNDLE_ID: "com.dartousha.rtyameck"
+        XCODE_WORKSPACE: "BrisbaneWharfBox.xcworkspace"
+        XCODE_SCHEME: "BrisbaneWharfBox"
+        APP_STORE_APPLE_ID: 6748028695
+
+      node: 18.18.0
+      xcode: latest
+
+    scripts:
+      - name: Install dependencies
+        script: |
+          npm install
+          cd ios
+          pod install
+          cd ..
+
+      - name: Clean derived data
+        script: |
+          rm -rf ~/Library/Developer/Xcode/DerivedData
+          xcodebuild -resolvePackageDependencies
+
+      - name: Set up provisioning profiles
+        script: xcode-project use-profiles
+
+      - name: Build IPA
+        script: |
+          xcode-project build-ipa \
+            --workspace "$XCODE_WORKSPACE" \
+            --scheme "$XCODE_SCHEME"
+
+      - name: Check App Store Connect keys
+        script: |
+          echo "🔑 Checking environment keys..."
+          echo "APP_STORE_API_KEY: ${APP_STORE_API_KEY:0:10}******"
+          echo "APP_STORE_KEY_ID: ${APP_STORE_KEY_ID}"
+          echo "APP_STORE_ISSUER_ID: ${APP_STORE_ISSUER_ID}"
+          
+          if [ -z "$APP_STORE_API_KEY" ] || [ -z "$APP_STORE_KEY_ID" ] || [ -z "$APP_STORE_ISSUER_ID" ]; then
+            echo "🚨 Missing one or more App Store Connect credentials."
+            exit 1
+          else
+            echo "✅ All keys are present."
+          fi
+
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.app
+      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
+
+    publishing:
+      email:
+        recipients:
+          - olya0665643972@gmail.com
+        notify:
+          success: true
+          failure: false
+
+      app_store_connect:
+        api_key: $APP_STORE_API_KEY
+        key_id: $APP_STORE_KEY_ID
+        issuer_id: $APP_STORE_ISSUER_ID
+        submit_to_testflight: true
+        submit_to_app_store: false
