@@ -5,7 +5,7 @@ workflows:
     instance_type: mac_mini_m2
 
     integrations:
-      app_store_connect: "Brisbane Wharf Box API" 
+      app_store_connect: "Brisbane Wharf Box API"  
 
     environment:
       groups:
@@ -13,7 +13,7 @@ workflows:
 
       ios_signing:
         distribution_type: app_store
-        bundle_identifier: com.briscsba.neharfosde
+        bundle_identifier: com.briscsba.neharfosde  
 
       vars:
         BUNDLE_ID: "com.briscsba.neharfosde"
@@ -34,7 +34,7 @@ workflows:
 
       - name: Clean derived data
         script: |
-          rm -rf ~/Library/Developer/Xcode/DerivedData || true
+          rm -rf ~/Library/Developer/Xcode/DerivedData
           xcodebuild -resolvePackageDependencies -workspace "$XCODE_WORKSPACE" -scheme "$XCODE_SCHEME"
 
       - name: Set up provisioning profiles
@@ -45,20 +45,6 @@ workflows:
           xcode-project build-ipa \
             --workspace "$XCODE_WORKSPACE" \
             --scheme "$XCODE_SCHEME"
-
-      - name: Check App Store Connect keys
-        script: |
-          echo "🔐 Checking environment keys..."
-          echo "APP_STORE_API_KEY: ${APP_STORE_API_KEY:0:10}******"
-          echo "APP_STORE_KEY_ID: ${APP_STORE_KEY_ID}"
-          echo "APP_STORE_ISSUER_ID: ${APP_STORE_ISSUER_ID}"
-
-          if [ -z "$APP_STORE_API_KEY" ] || [ -z "$APP_STORE_KEY_ID" ] || [ -z "$APP_STORE_ISSUER_ID" ]; then
-            echo "🚨 One or more App Store Connect credentials are missing."
-            exit 1
-          else
-            echo "✅ All App Store Connect keys are present."
-          fi
 
     artifacts:
       - build/ios/ipa/*.ipa
