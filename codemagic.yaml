@@ -9,7 +9,7 @@ workflows:
 
     environment:
       groups:
-        - Box  
+        - Box
 
       ios_signing:
         distribution_type: app_store
@@ -44,8 +44,6 @@ workflows:
     artifacts:
       - build/ios/ipa/*.ipa
       - /tmp/xcodebuild_logs/*.log
-      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.app
-      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
 
     publishing:
       email:
