@@ -17,7 +17,7 @@ workflows:
 
       vars:
         BUNDLE_ID: "com.briscsba.neharfosde"
-        XCODE_WORKSPACE: "BrisbaneWharfBox.xcworkspace"
+        XCODE_WORKSPACE: "BrisbaneWharfBox.xcodeproj"
         XCODE_SCHEME: "BrisbaneWharfBox"
         APP_STORE_APPLE_ID: 6748035304
 
