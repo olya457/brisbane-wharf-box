@@ -5,15 +5,15 @@ workflows:
     instance_type: mac_mini_m2
 
     integrations:
-      app_store_connect: "Brisbane Wharf Box"
+      app_store_connect: "Brisbane Wharf Box"  
 
     environment:
       groups:
-        - Box
+        - Box  
 
       ios_signing:
         distribution_type: app_store
-        bundle_identifier: com.briscsba.neharfosde
+        bundle_identifier: com.briscsba.neharfosde  
 
       vars:
         BUNDLE_ID: "com.briscsba.neharfosde"
@@ -46,20 +46,6 @@ workflows:
             --workspace "$XCODE_WORKSPACE" \
             --scheme "$XCODE_SCHEME"
 
-      - name: Check App Store Connect keys
-        script: |
-          echo "🔑 Checking environment keys..."
-          echo "APP_STORE_API_KEY: ${APP_STORE_API_KEY:0:10}******"
-          echo "APP_STORE_KEY_ID: ${APP_STORE_KEY_ID}"
-          echo "APP_STORE_ISSUER_ID: ${APP_STORE_ISSUER_ID}"
-          
-          if [ -z "$APP_STORE_API_KEY" ] || [ -z "$APP_STORE_KEY_ID" ] || [ -z "$APP_STORE_ISSUER_ID" ]; then
-            echo "🚨 Missing one or more App Store Connect credentials."
-            exit 1
-          else
-            echo "✅ All keys are present."
-          fi
-
     artifacts:
       - build/ios/ipa/*.ipa
       - /tmp/xcodebuild_logs/*.log
@@ -75,8 +61,6 @@ workflows:
           failure: false
 
       app_store_connect:
-        api_key: $APP_STORE_API_KEY
-        key_id: $APP_STORE_KEY_ID
-        issuer_id: $APP_STORE_ISSUER_ID
+        auth: integration 
         submit_to_testflight: true
         submit_to_app_store: false
